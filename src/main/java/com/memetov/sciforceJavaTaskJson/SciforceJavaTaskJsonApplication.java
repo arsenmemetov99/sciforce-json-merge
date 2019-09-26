@@ -1,4 +1,4 @@
-package com.memetov.SciforceJavaTaskJson;
+package com.memetov.sciforceJavaTaskJson;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

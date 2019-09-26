@@ -3,15 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>SciForceTask</title>
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-<form action="/path" method="get">
-    <label>
-        <input type="text" name="path" placeholder="local path">
-    </label>
-    <label>
-        <input type="text" name="url" placeholder="url">
-    </label>
-    <button type="submit">Send</button>
+<label>
+    <input id="filePath" type="text" name="filePath" placeholder="local path">
+</label>
+<label>
+    <input id="link" type="text" name="link" placeholder="url">
+</label>
+<button type="submit" onclick="sendRequest()">Send</button>
+
+<div id="container">
+
+</div>
+<script>
+    function sendRequest() {
+        var input = {
+            "filePath": $("#filePath").val(),
+            "link": $("#link").val()
+        };
+        console.log(input);
+        $.ajax({
+            method: 'POST',
+            url: "/mergeJson",
+            contentType: "application/json;json-merging-control;version=1.0",
+            datatype: 'json',
+            data: JSON.stringify(input),
+            success: function (data) {
+                var productMap = data.productMap;
+                if (productMap !== null) {
+                    var table = '<table border="1">';
+                    table += '<tr>\n' +
+                        '    <th>Product UUID</th>\n' +
+                        '    <th>Product Name</th>\n' +
+                        '    <th>Amount</th>\n' +
+                        '   </tr>';
+                    $.each(productMap, function(i, item) {
+                        table += '<tr><td>' + item.productUuid + '</td><td>' + item.productName + '</td><td>' + item.amount+ '</td></tr>';
+                    });
+                    table += '</table>';
+                    $('#container').html(table);
+                }
+            },
+            statusCode: {
+                500: function (data) {
+                    var errorMessage =  data.errorBlock.message;
+                    alert(errorMessage);
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>
