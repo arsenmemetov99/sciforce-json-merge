@@ -2,6 +2,9 @@ package com.memetov.sciforceJavaTaskJson.domain;
 
 import java.util.UUID;
 
+/**
+ * Class for json template
+ */
 public class Product {
 
     private UUID productUuid;

@@ -14,9 +14,7 @@
 </label>
 <button type="submit" onclick="sendRequest()">Send</button>
 
-<div id="container">
-
-</div>
+<div id="container"></div>
 <script>
     function sendRequest() {
         var input = {
@@ -39,19 +37,36 @@
                         '    <th>Product Name</th>\n' +
                         '    <th>Amount</th>\n' +
                         '   </tr>';
-                    $.each(productMap, function(i, item) {
-                        table += '<tr><td>' + item.productUuid + '</td><td>' + item.productName + '</td><td>' + item.amount+ '</td></tr>';
+                    $.each(productMap, function (i, item) {
+                        table += '<tr><td>' + item.productUuid + '</td><td>' + item.productName + '</td><td>' + item.amount + '</td></tr>';
                     });
                     table += '</table>';
                     $('#container').html(table);
                 }
             },
-            statusCode: {
-                500: function (data) {
-                    var errorMessage =  data.errorBlock.message;
-                    alert(errorMessage);
+
+            error:function (jqXHR,textStatus,errorThrown) {
+                var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                if(jqXHR.status == 500){
+                    var p = '<p>' + jsonValue.errorBlock.message + '</p>';
+                    $('#container').html(p);
+                }else if(jqXHR == 400){
+                    var p = '<p>' + jsonValue.errorBlock.message + '</p>';
+                    $('#container').html(p);
+                    var table = '<table border="1">';
+                    table += '<tr>\n' +
+                        '    <th>Fielfd Name</th>\n' +
+                        '    <th>Message</th>\n' +
+                        '   </tr>';
+                    $.each(jsonValue.errorBlock.validationErrors, function (i, item) {
+                        table += '<tr><td>' + item.fieldName + '</td><td>' + item.message + '</td></tr>';
+                    });
+                    table += '</table>';
+                    $('#container').html(table);
                 }
             }
+
+
         });
     }
 </script>

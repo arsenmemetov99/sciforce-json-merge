@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 
 import static com.memetov.sciforceJavaTaskJson.domain.JsonMergeHypermediaControl.MIME_TYPE;
 
+/**
+ * Accepts a request from the user and checks for validation
+ */
 @RestController
 public class MainController {
 
@@ -44,7 +47,7 @@ public class MainController {
             JsonMergeHypermediaControl response = jsonMergingService.mergeJsons(control);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IOException e) {
-            String errorMessage = String.format("An error ({0}) occurred during the request processing: {1}.", e.getClass(), e.getMessage());
+            String errorMessage = String.format("An error %s occurred during the request processing: %s", e.getClass().getName(), e.getMessage());
             ErrorBlock errorBlock = new ErrorBlock(errorMessage);
             control.setErrorBlock(errorBlock);
             return new ResponseEntity<>(control, HttpStatus.INTERNAL_SERVER_ERROR);

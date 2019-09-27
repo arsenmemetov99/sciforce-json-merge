@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Describes a request from the user
+ */
 public class JsonMergeHypermediaControl {
     public static final String MIME_TYPE = "application/json;json-merging-control;version=1.0";
 

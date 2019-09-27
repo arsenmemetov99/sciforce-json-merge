@@ -3,6 +3,9 @@ package com.memetov.sciforceJavaTaskJson.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Describes validation errors
+ */
 public class ErrorBlock {
 
     private String message;
